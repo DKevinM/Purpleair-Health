@@ -1,0 +1,35 @@
+body {
+font-family: Arial;
+margin: 40px;
+}
+
+table {
+border-collapse: collapse;
+width: 100%;
+}
+
+th, td {
+border: 1px solid #ccc;
+padding: 8px;
+text-align: center;
+}
+
+th {
+background: #f0f0f0;
+}
+
+.GOOD {
+background: #c8f7c5;
+}
+
+.WARNING {
+background: #ffeaa7;
+}
+
+.BAD {
+background: #ff7675;
+}
+
+.OFFLINE {
+background: #dfe6e9;
+}
