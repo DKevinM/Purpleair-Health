@@ -40,18 +40,16 @@ function buildTable(data){
     })
 
     Object.values(latest)
-      .filter(s => s.name.includes("ACA") || s.name.includes("WCAS"))
-      .forEach(s => {
-
+        .filter(s => {
+            if (!s.name) return false
+            return s.name.includes("ACA") || s.name.includes("WCAS")
+        })
+        .forEach(s => {
         const qc = qcCheck(s.pm25_atm_a, s.pm25_atm_b)
-
         const hoursOld = (Date.now() - new Date(s.recorded_at)) / 3600000
-
         let status = qc.status
         if (hoursOld > 3) status = "OFFLINE"
-
         const tr = document.createElement("tr")
-
         tr.innerHTML = `
         <td>${s.name}</td>
         <td>${new Date(s.recorded_at).toLocaleString("en-CA", {
@@ -63,7 +61,6 @@ function buildTable(data){
         <td>${qc.diff ?? "-"}</td>
         <td class="${status}">${status}</td>
         `
-
         tbody.appendChild(tr)
     })
 }
