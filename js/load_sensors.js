@@ -3,7 +3,7 @@ const SUPABASE_KEY = "YOUR_KEY"
 
 async function loadSensors(){
 
-    const url = `${SUPABASE_URL}/rest/v1/sensor_readings?select=sensor_index,name,timestamp,pm2_5_atm_a,pm2_5_atm_b&order=timestamp.desc`
+    const url = `${SUPABASE_URL}/rest/v1/sensor_readings?select=sensor_index,name,created_at,pm25_atm_a,pm25_atm_b&order=created_at.desc`
 
     const response = await fetch(url,{
         headers:{
@@ -34,15 +34,15 @@ function buildTable(data){
 
     Object.values(latest).forEach(s => {
 
-        const qc = qcCheck(s.pm2_5_atm_a, s.pm2_5_atm_b)
+        const qc = qcCheck(s.pm25_atm_a, s.pm25_atm_b)
 
         const tr = document.createElement("tr")
 
         tr.innerHTML = `
         <td>${s.name}</td>
-        <td>${new Date(s.timestamp).toLocaleString()}</td>
-        <td>${s.pm2_5_atm_a}</td>
-        <td>${s.pm2_5_atm_b}</td>
+        <td>${new Date(s.created_at).toLocaleString()}</td>
+        <td>${s.pm25_atm_a}</td>
+        <td>${s.pm25_atm_b}</td>
         <td>${qc.avg}</td>
         <td>${qc.diff}%</td>
         <td class="${qc.status}">${qc.status}</td>
