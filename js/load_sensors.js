@@ -15,8 +15,11 @@ async function loadSensors(){
         return
     }
     const data = await response.json()
+    const data = await response.json()
+    console.log("DATA:", data)
     buildTable(data)
 }
+
 
 
 function buildTable(data){
@@ -42,9 +45,6 @@ function buildTable(data){
         tbody.appendChild(tr)
     })
 }
-
-const data = await response.json()
-console.log("DATA:", data)
 
 loadSensors()
 setInterval(loadSensors, 60 * 60 * 1000)
