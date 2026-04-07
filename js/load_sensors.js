@@ -21,29 +21,31 @@ async function loadSensors(){
 
 
 
-function buildTable(data){
-    const tbody = document.querySelector("#sensorTable tbody")
-    tbody.innerHTML = ""
-    data.forEach(s => {
-        const qc = qcCheck(s.pm25_atm_a, s.pm25_atm_b)
-        const hoursOld = (Date.now() - new Date(s.recorded_at)) / 3600000
-        let status = qc.status
-        if (hoursOld > 3) status = "OFFLINE"
-        const tr = document.createElement("tr")
-        tr.innerHTML = `
-        <td>${s.name}</td>
-        <td>${new Date(s.recorded_at).toLocaleString("en-CA", {
-            timeZone: "America/Edmonton"
-        })}</td>
-        <td>${s.pm25_atm_a ?? "-"}</td>
-        <td>${s.pm25_atm_b ?? "-"}</td>
-        <td>${s.pm_corrected ?? qc.avg ?? "-"}</td>
-        <td>${qc.diff ?? "-"}</td>
-        <td class="${status}">${status}</td>
-        `
-        tbody.appendChild(tr)
-    })
-}
+data
+  .filter(s => s.name.includes("ACA") || s.name.includes("WCAS"))
+  .forEach(s => {
 
-loadSensors()
-setInterval(loadSensors, 60 * 60 * 1000)
+    const qc = qcCheck(s.pm25_atm_a, s.pm25_atm_b)
+
+    const hoursOld = (Date.now() - new Date(s.recorded_at)) / 3600000
+
+    let status = qc.status
+    if (hoursOld > 3) status = "OFFLINE"
+
+    const tr = document.createElement("tr")
+
+    tr.innerHTML = `
+    <td>${s.name}</td>
+    <td>${new Date(s.recorded_at).toLocaleString("en-CA", {
+        timeZone: "America/Edmonton"
+    })}</td>
+    <td>${s.pm25_atm_a ?? "-"}</td>
+    <td>${s.pm25_atm_b ?? "-"}</td>
+    <td>${s.pm_corrected ?? qc.avg ?? "-"}</td>
+    <td>${qc.diff ?? "-"}</td>
+    <td class="${status}">${status}</td>
+    `
+
+    tbody.appendChild(tr)
+})
+
