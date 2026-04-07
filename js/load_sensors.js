@@ -1,5 +1,5 @@
-const SUPABASE_URL = "YOUR_URL"
-const SUPABASE_KEY = "YOUR_KEY"
+const SUPABASE_URL = "https://zcunoncbyitfsilrhymv.supabase.co"
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdW5vbmNieWl0ZnNpbHJoeW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3Mjk3NDYsImV4cCI6MjA2NzMwNTc0Nn0._z_tqm_5UIBkWfMa7HAJrUOA-0t9vOaBVV48-74esWQ"
 
 async function loadSensors(){
     const url = `${SUPABASE_URL}/rest/v1/sensor_readings?select=sensor_index,name,created_at,pm25_atm_a,pm25_atm_b&order=created_at.desc`
