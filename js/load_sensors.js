@@ -54,7 +54,7 @@ function buildTable(data){
         tr.innerHTML = `
         <td>${s.sensor_index ?? "-"}</td>
         <td>${s.name}</td>
-        <td>${formatEdmontonTime(s.last_seen)}</td>
+        <td>${new Date(s.last_seen).toLocaleString()}</td>
         <td>${fmt(s["pm2.5_atm_a"])}</td>
         <td>${fmt(s["pm2.5_atm_b"])}</td>
         <td>${s.pm_method ?? "-"}</td>
