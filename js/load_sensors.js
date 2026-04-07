@@ -20,6 +20,9 @@ async function loadSensors(){
 
 
 function buildTable(data){
+    const hoursOld = (Date.now() - new Date(s.recorded_at)) / 3600000
+    let status = qc.status
+    if (hoursOld > 3) status = "OFFLINE"    
     const tbody = document.querySelector("#sensorTable tbody")
     Object.values(latest).forEach(s => {
         const qc = qcCheck(s.pm25_atm_a, s.pm25_atm_b)
