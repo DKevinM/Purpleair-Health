@@ -2,7 +2,7 @@ const SUPABASE_URL = "https://zcunoncbyitfsilrhymv.supabase.co"
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdW5vbmNieWl0ZnNpbHJoeW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3Mjk3NDYsImV4cCI6MjA2NzMwNTc0Nn0._z_tqm_5UIBkWfMa7HAJrUOA-0t9vOaBVV48-74esWQ"
 
 async function loadSensors(){
-    const url = `${SUPABASE_URL}/rest/v1/sensor_readings?select=sensor_index,name,created_at,pm25_atm_a,pm25_atm_b&order=created_at.desc`
+    const url = `${SUPABASE_URL}/rest/v1/sensor_readings?select=sensor_index,name,recorded_at,pm25_atm_a,pm25_atm_b&or=(name.ilike.ACA%,name.ilike.WCAS%)&order=recorded_at.desc&limit=500`
     const response = await fetch(url, {
         headers: {
             "apikey": SUPABASE_KEY,
@@ -34,7 +34,7 @@ function buildTable(data){
 
         tr.innerHTML = `
         <td>${s.name}</td>
-        <td>${new Date(s.created_at).toLocaleString()}</td>
+        <td>${new Date(s.recorded_at).toLocaleString()}</td>
         <td>${s.pm25_atm_a}</td>
         <td>${s.pm25_atm_b}</td>
         <td>${qc.avg}</td>
