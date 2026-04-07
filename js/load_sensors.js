@@ -15,7 +15,6 @@ async function loadSensors(){
         return
     }
     const data = await response.json()
-    const data = await response.json()
     console.log("DATA:", data)
     buildTable(data)
 }
