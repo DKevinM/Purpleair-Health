@@ -11,18 +11,13 @@ function fmt(v){
     return v != null ? Number(v).toFixed(1) : "-"
 }
 
-function formatEdmontonTime(ms){
-    return new Date(ms).toLocaleString("en-CA", {
-        timeZone: "America/Edmonton",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true
-    })
+
+function formatNoTZ(ms){
+    const d = new Date(ms)
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')} ` +
+           `${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}:${String(d.getUTCSeconds()).padStart(2,'0')}`
 }
+
 
 function buildTable(data){
     const tbody = document.querySelector("#sensorTable tbody")
@@ -54,7 +49,7 @@ function buildTable(data){
         tr.innerHTML = `
         <td>${s.sensor_index ?? "-"}</td>
         <td>${s.name}</td>
-        <td>${new Date(s.last_seen).toLocaleString()}</td>
+        <td>${formatNoTZ(s.last_seen)}</td>
         <td>${fmt(s["pm2.5_atm_a"])}</td>
         <td>${fmt(s["pm2.5_atm_b"])}</td>
         <td>${s.pm_method ?? "-"}</td>
