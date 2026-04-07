@@ -11,6 +11,19 @@ function fmt(v){
     return v != null ? Number(v).toFixed(1) : "-"
 }
 
+function formatEdmontonTime(ms){
+    return new Date(ms).toLocaleString("en-CA", {
+        timeZone: "America/Edmonton",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+    })
+}
+
 function buildTable(data){
     const tbody = document.querySelector("#sensorTable tbody")
     tbody.innerHTML = ""
@@ -39,10 +52,9 @@ function buildTable(data){
         
         const tr = document.createElement("tr")
         tr.innerHTML = `
+        <td>${s.sensor_index ?? "-"}</td>
         <td>${s.name}</td>
-        <td>${new Date(s.last_seen).toLocaleString("en-CA", {
-            timeZone: "America/Edmonton"
-        })}</td>
+        <td>${formatEdmontonTime(s.last_seen)}</td>
         <td>${fmt(s["pm2.5_atm_a"])}</td>
         <td>${fmt(s["pm2.5_atm_b"])}</td>
         <td>${s.pm_method ?? "-"}</td>
