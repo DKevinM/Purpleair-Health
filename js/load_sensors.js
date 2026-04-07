@@ -1,47 +1,39 @@
 const url = "https://dkevinm.github.io/AB_datapull/data/AB_PM25_map.json"
 
 async function loadSensors(){
-
     const response = await fetch(url)
     const data = await response.json()
-
     console.log("DATA:", data)
-
     buildTable(data)
 }
 
-function buildTable(data){
+function fmt(v){
+    return v != null ? Number(v).toFixed(1) : "-"
+}
 
+function buildTable(data){
     const tbody = document.querySelector("#sensorTable tbody")
     tbody.innerHTML = ""
-
-    data.forEach(s => {
-
-        if (!s.name) return
-
-        const hoursOld = (Date.now() - s.last_seen) / 3600000
-
-        let status = "GOOD"
-        if (hoursOld > 3) status = "OFFLINE"
-
+    data
+      .filter(s => {
+          if (!s.name) return false
+          const name = s.name.toUpperCase()
+          return name.includes("ACA") || name.includes("WCAS")
+      })
+      .forEach(s => {
+        
         const tr = document.createElement("tr")
-
         tr.innerHTML = `
         <td>${s.name}</td>
-
         <td>${new Date(s.last_seen).toLocaleString("en-CA", {
             timeZone: "America/Edmonton"
         })}</td>
-
-        <td>${s["pm2.5_atm_a"] ?? "-"}</td>
-        <td>${s["pm2.5_atm_b"] ?? "-"}</td>
-
+        <td>${fmt(s["pm2.5_atm_a"])}</td>
+        <td>${fmt(s["pm2.5_atm_b"])}</td>
         <td>${s.pm_method ?? "-"}</td>
-        <td>${s.pm_corr ?? "-"}</td>
+        <td>${fmt(s.pm_corr)}</td>
 
-        <td>${status}</td>
         `
-
         tbody.appendChild(tr)
     })
 }
