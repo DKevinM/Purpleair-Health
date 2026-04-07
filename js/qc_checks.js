@@ -6,8 +6,11 @@ function qcCheck(a, b) {
 
     const avg = (a + b) / 2
 
-    const diff = Math.abs(a - b)
+    if (avg === 0) {
+        return {avg:0, diff:0, status:"OFFLINE"}
+    }
 
+    const diff = Math.abs(a - b)
     const pct = (diff / avg) * 100
 
     let status = "GOOD"
