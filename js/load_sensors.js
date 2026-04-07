@@ -3,7 +3,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 async function loadSensors(){
 
-    const url = `${SUPABASE_URL}/rest/v1/latest_sensor_readings`
+    const url = `${SUPABASE_URL}/rest/v1/sensor_readings?select=sensor_index,name,recorded_at,pm25_atm_a,pm25_atm_b,pm_corrected,pm_method&order=recorded_at.desc&limit=1000`
 
     const response = await fetch(url, {
         headers: {
@@ -29,10 +29,17 @@ async function loadSensors(){
 function buildTable(data){
 
     const tbody = document.querySelector("#sensorTable tbody")
-
     tbody.innerHTML = ""
 
-    data
+    const latest = {}
+
+    data.forEach(s => {
+        if (!latest[s.sensor_index]) {
+            latest[s.sensor_index] = s
+        }
+    })
+
+    Object.values(latest)
       .filter(s => s.name.includes("ACA") || s.name.includes("WCAS"))
       .forEach(s => {
 
