@@ -18,7 +18,22 @@ function buildTable(data){
       .filter(s => {
           if (!s.name) return false
           const name = s.name.toUpperCase()
+    
+          if (name.includes("PAS_ACADIAVALLEY")) return false
+    
           return name.includes("ACA") || name.includes("WCAS")
+      })
+      .sort((a, b) => {
+    
+          const nameA = a.name.toUpperCase()
+          const nameB = b.name.toUpperCase()
+    
+          if (nameA.includes("ACA") && !nameB.includes("ACA")) return -1
+          if (!nameA.includes("ACA") && nameB.includes("ACA")) return 1
+
+          if (nameA.includes("WCAS") && !nameB.includes("WCAS")) return -1
+          if (!nameA.includes("WCAS") && nameB.includes("WCAS")) return 1
+    
       })
       .forEach(s => {
         
