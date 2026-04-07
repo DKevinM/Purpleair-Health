@@ -43,5 +43,8 @@ function buildTable(data){
     })
 }
 
+const data = await response.json()
+console.log("DATA:", data)
+
 loadSensors()
 setInterval(loadSensors, 60 * 60 * 1000)
