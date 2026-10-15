@@ -1,39 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>PurpleAir Sensor Health</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PurpleAir &amp; Light Health</title>
 <link rel="stylesheet" href="css/style.css">
-
 </head>
-
 <body>
 
-<h1>PurpleAir Sensor Health Dashboard</h1>
+<h1>PurpleAir Sensor &amp; AQHI Light Health</h1>
+<p class="sub" id="updated">Loading…</p>
 
-<table id="sensorTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Sensor</th>
-<th>Time</th>
-<th>A</th>
-<th>B</th>
-<th>Method</th>
-<th>Corrected</th>
-</tr>
-</thead>
+<div class="tiles" id="tiles"></div>
 
+<h2>AQHI lights</h2>
+<p class="sub">What each light is showing now and whether it is connected. Status only — the lights are managed separately.</p>
+<div class="scroll">
+<table id="lightTable">
+<thead><tr><th>Light</th><th>Showing</th><th>Status</th><th>Based on</th><th>Last update</th><th>Issues</th></tr></thead>
 <tbody></tbody>
-
 </table>
+</div>
 
-<div id="chart"></div>
+<h2>PurpleAir sensors (ACA &amp; WCAS)</h2>
+<div class="controls">
+  <button data-f="all" class="on">All</button>
+  <button data-f="problems">Problems only</button>
+  <span class="sub" id="paCount"></span>
+</div>
+<div class="scroll">
+<table id="sensorTable">
+<thead><tr><th>ID</th><th>Sensor</th><th>Airshed</th><th>Status</th><th>Detail</th><th>Last seen</th><th>A</th><th>B</th><th>Method</th><th>Corrected</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
 
+<details id="deadBox">
+  <summary>Dead list — all sensors removed from the maps (<span id="deadN"></span>)</summary>
+  <div class="scroll">
+  <table id="deadTable"><thead><tr><th>ID</th><th>Sensor</th><th>Airshed</th></tr></thead><tbody></tbody></table>
+  </div>
+</details>
+
+<p class="foot">Updated every 30 minutes from the KRM Environmental servers. PurpleAir values are PM2.5 in µg/m³; "Corrected" includes the humidity correction used on the maps.</p>
 
 <script src="js/load_sensors.js"></script>
-<script src="js/charts.js"></script>
-
 </body>
 </html>

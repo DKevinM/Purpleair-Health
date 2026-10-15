@@ -1,35 +1,129 @@
 body {
-font-family: Arial;
-margin: 40px;
+font-family: Arial, sans-serif;
+margin: 32px;
+color: #1f2328;
+}
+
+h2 {
+margin-top: 32px;
+margin-bottom: 4px;
+}
+
+.sub {
+color: #59636e;
+font-size: 13px;
+}
+
+.foot {
+color: #59636e;
+font-size: 12px;
+margin-top: 24px;
+}
+
+.scroll {
+overflow-x: auto;
 }
 
 table {
 border-collapse: collapse;
 width: 100%;
+font-size: 14px;
 }
 
 th, td {
 border: 1px solid #ccc;
-padding: 8px;
+padding: 6px 8px;
 text-align: center;
+}
+
+td:nth-child(2), th:nth-child(2) {
+text-align: left;
 }
 
 th {
 background: #f0f0f0;
 }
 
-.GOOD {
-background: #c8f7c5;
+.rowbad {
+background: #fff5f5;
 }
 
-.WARNING {
-background: #ffeaa7;
+.tiles {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin: 12px 0;
 }
 
-.BAD {
-background: #ff7675;
+.tile {
+border: 1px solid #ccc;
+border-left: 6px solid #ccc;
+border-radius: 6px;
+padding: 8px 14px;
+min-width: 130px;
 }
 
-.OFFLINE {
-background: #dfe6e9;
+.tile .k { font-size: 12px; color: #59636e; }
+.tile .v { font-size: 24px; font-weight: bold; }
+.tile.ok { border-left-color: #2da44e; }
+.tile.warn { border-left-color: #d4a72c; }
+.tile.bad { border-left-color: #cf222e; }
+.tile.dead { border-left-color: #57606a; }
+
+.badge {
+display: inline-block;
+padding: 2px 8px;
+border-radius: 10px;
+font-size: 12px;
+font-weight: bold;
+white-space: nowrap;
+}
+
+.badge.ok { background: #c8f7c5; }
+.badge.warn { background: #ffeaa7; }
+.badge.bad { background: #ff7675; color: #fff; }
+.badge.dead { background: #57606a; color: #fff; }
+.badge.muted { background: #dfe6e9; }
+
+.sw {
+display: inline-block;
+width: 14px;
+height: 14px;
+border-radius: 50%;
+border: 1px solid #555;
+vertical-align: -2px;
+margin-right: 6px;
+}
+
+.controls {
+margin: 8px 0;
+display: flex;
+gap: 8px;
+align-items: center;
+}
+
+.controls button {
+border: 1px solid #ccc;
+background: #fff;
+padding: 4px 12px;
+border-radius: 6px;
+cursor: pointer;
+}
+
+.controls button.on {
+background: #1f2328;
+color: #fff;
+}
+
+details {
+margin-top: 24px;
+}
+
+summary {
+cursor: pointer;
+font-weight: bold;
+}
+
+@media (max-width: 700px) {
+body { margin: 12px; }
 }
