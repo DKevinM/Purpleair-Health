@@ -95,6 +95,32 @@ vertical-align: -2px;
 margin-right: 6px;
 }
 
+/* station grid - EqCheck's colour-blind-safe palette; squares = not reporting / problem / off */
+.dot {
+display: inline-block;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+vertical-align: -1px;
+}
+
+.dot.ok { background: #0072B2; }
+.dot.cal { background: #56B4E9; }
+.dot.check { background: #F0E442; box-shadow: inset 0 0 0 1px #8a7d00; }
+.dot.missing { background: #E69F00; border-radius: 0; }
+.dot.bad { background: #D55E00; border-radius: 0; }
+.dot.off { background: #7b5ea7; border-radius: 0; }
+
+.legend .dot { margin: 0 4px 0 12px; }
+.legend .dot:first-child { margin-left: 0; }
+
+.stn td, .stn th { padding: 4px 6px; }
+.stn td.l, .stn th:nth-child(3) { text-align: left; }
+.stn td:nth-child(3) { min-width: 220px; }
+.val { font-size: 10px; color: #59636e; }
+
+h3 { margin: 18px 0 4px; }
+
 .controls {
 margin: 8px 0;
 display: flex;

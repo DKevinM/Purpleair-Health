@@ -16,6 +16,34 @@ const ago = iso => {
     return h < 1 ? `${Math.max(1, Math.round(h * 60))} min ago` : h < 48 ? `${Math.round(h)} h ago` : `${Math.round(h / 24)} days ago`
 }
 const BADGE = { ok: ["OK", "ok"], check: ["Check", "warn"], offline: ["Not reporting", "bad"], dead: ["Dead", "dead"], not_on_map: ["Not on map", "muted"] }
+const STN_BADGE = { ok: ["OK", "ok"], check: ["Check", "warn"], problem: ["Problem", "bad"], offline: ["Not reporting", "bad"], shut: ["Shut down", "dead"] }
+const CH_ORDER = ["SO2", "H2S", "TRS", "NO", "NO2", "NOX", "O3", "CO", "PM25", "THC", "CH4", "NMHC", "NH3", "WS", "WD", "ET", "RH", "BP", "PR"]
+const CH_LABEL = { SO2: "SO₂", H2S: "H₂S", NO2: "NO₂", NOX: "NOₓ", O3: "O₃", PM25: "PM2.5", CH4: "CH₄", NH3: "NH₃", ET: "Temp" }
+
+function renderStations(S) {
+    document.getElementById("mdsDown").innerHTML = DATA.mds_server_down
+        ? `<p><span class="badge bad">The MDS station server is not answering - station data has stopped coming in</span></p>` : ""
+    document.getElementById("stationTables").innerHTML = ["ACA", "WCAS"].map(net => {
+        const rows = S.filter(s => s.airshed === net)
+        const chans = CH_ORDER.filter(c => rows.some(r => c in r.channels))
+        return `<h3>${net}</h3><div class="scroll"><table class="stn">
+        <thead><tr><th>Station</th><th>Status</th><th>What we found</th><th>Data through</th>${chans.map(c => `<th>${CH_LABEL[c] || c}</th>`).join("")}</tr></thead>
+        <tbody>${rows.map(r => {
+            const [label, cls] = STN_BADGE[r.status] || [r.status, "muted"]
+            return `<tr class="${r.status === "problem" || r.status === "offline" ? "rowbad" : ""}">
+            <td class="l"><b>${esc(r.station)}</b></td>
+            <td><span class="badge ${cls}">${label}</span></td>
+            <td class="l sub">${r.issues.length ? r.issues.map(i => `<b>${CH_LABEL[i.channel] || i.channel}</b>: ${esc(i.text)}`).join("<br>") : esc(r.detail)}</td>
+            <td>${local(r.data_through_utc)}</td>
+            ${chans.map(c => {
+                const ch = r.channels[c]
+                if (!ch) return "<td></td>"
+                const v = ch.v != null && ch.s !== "off" ? `<div class="val">${fmt(ch.v)}</div>` : ""
+                return `<td><span class="dot ${ch.s}" title="${esc((CH_LABEL[c] || c) + ": " + ch.t)}"></span>${v}</td>`
+            }).join("")}</tr>`
+        }).join("")}</tbody></table></div>`
+    }).join("")
+}
 
 async function loadHealth() {
     try {
@@ -36,13 +64,20 @@ function render() {
 
     const n = s => P.filter(p => p.status === s).length
     const lOk = L.filter(l => l.ok).length
+    const S = d.stations || [], live = S.filter(s => s.status !== "shut")
+    const sBad = live.filter(s => s.status === "problem" || s.status === "offline").length
+    const sChk = live.filter(s => s.status === "check").length
     document.getElementById("tiles").innerHTML = [
+        ["Stations OK", `${live.length - sBad - sChk} / ${live.length}`, sBad ? "bad" : sChk ? "warn" : "ok"],
+        ["Stations with a problem", sBad, sBad ? "bad" : "ok"],
         ["Lights on", `${lOk} / ${L.length}`, lOk === L.length ? "ok" : "warn"],
-        ["Sensors OK", `${n("ok")} / ${P.length}`, "ok"],
-        ["Need a check", n("check"), n("check") ? "warn" : "ok"],
-        ["Not reporting", n("offline"), n("offline") ? "bad" : "ok"],
-        ["Dead (ACA/WCAS)", n("dead"), n("dead") ? "dead" : "ok"],
+        ["PurpleAir OK", `${n("ok")} / ${P.length}`, "ok"],
+        ["PurpleAir to check", n("check"), n("check") ? "warn" : "ok"],
+        ["PurpleAir not reporting", n("offline"), n("offline") ? "bad" : "ok"],
+        ["PurpleAir dead", n("dead"), n("dead") ? "dead" : "ok"],
     ].map(([k, v, c]) => `<div class="tile ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")
+
+    renderStations(S)
 
     document.querySelector("#lightTable tbody").innerHTML = L.map(l => `<tr class="${l.ok ? "" : "rowbad"}">
         <td><b>${esc(l.name)}</b>${l.brand !== "LIFX" ? ` <span class="sub">${esc(l.brand)}</span>` : ""}</td>
