@@ -3,28 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Station &amp; Sensor Health</title>
+<title>PurpleAir &amp; Light Health</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>Station, PurpleAir &amp; AQHI Light Health</h1>
+<h1>PurpleAir Sensor &amp; AQHI Light Health</h1>
 <p class="sub" id="updated">Loading…</p>
 
 <div class="tiles" id="tiles"></div>
-
-<h2>Air monitoring stations (ACA &amp; WCAS)</h2>
-<p class="sub">Checked against each station's 1-minute data. Station data runs about 1–2 hours behind real time. Hover a dot to see what it means.</p>
-<div id="mdsDown"></div>
-<div id="stationTables"></div>
-<p class="sub legend">
-  <span class="dot ok"></span>OK
-  <span class="dot cal"></span>Routine calibration / zero / span check
-  <span class="dot check"></span>Check (below zero, missing on the government feed, high PM with gases up)
-  <span class="dot missing"></span>Not reporting
-  <span class="dot bad"></span>Problem (stuck value, PM2.5 over 1000 with gases flat)
-  <span class="dot off"></span>Off on purpose
-</p>
 
 <h2>AQHI lights</h2>
 <p class="sub">What each light is showing now and whether it is connected. Status only — the lights are managed separately.</p>
@@ -55,7 +42,7 @@
   </div>
 </details>
 
-<p class="foot">Updated every 30 minutes from the KRM Environmental servers. Station gases are in ppb, PM2.5 in µg/m³. PurpleAir values are PM2.5 in µg/m³; "Corrected" includes the humidity correction used on the maps.</p>
+<p class="foot">Updated every 30 minutes from the KRM Environmental servers. PurpleAir values are PM2.5 in µg/m³; "Corrected" includes the humidity correction used on the maps.</p>
 
 <script src="js/load_sensors.js"></script>
 </body>
